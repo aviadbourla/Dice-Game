@@ -13,13 +13,13 @@ const Board = () => {
     const [SumBeforePass, setSumBeforePass] = useState(0);
     const [playerTurn, setplayerTurn] = useState(true);
     const [start, setStart] = useState(false);
-
+    
+    //upcoming 
     const [winner, setWinner] = useState(false);
     const [winneresName, setwinneresName] = useState('');
     const [NextRound, setNextRound] = useState(false);
     const [PlayerValue, setPlayerValue] = useState(0);
     const [unpresedDice, setUnpresedDice] = useState([]);
-
 
     useEffect(() => {
         setSumBeforePass(canculateScore());
@@ -120,8 +120,8 @@ const Board = () => {
             {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
             {start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
             {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
-            <br />   <br />  <br /> <p>   Find me At: <a href="https://github.com/aviadbourla"><i class="fab fa-twitter"> </i></a>
-                <i class="fab fa-facebook-square"></i>  <i class="fab fa-linkedin"></i>  <i class="fab fa-instagram"></i></p>
+            <br />   <br />  <br /> <p>   Find me At: <a href="https://github.com/aviadbourla"> <i class="fab fa-git"></i> </a>
+                <a href="https://il.linkedin.com/in/aviad-bourla-56b4351aa"> <i class="fab fa-linkedin"></i> </a></p>
         </div>
     )
 }

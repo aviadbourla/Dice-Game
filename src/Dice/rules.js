@@ -1,5 +1,3 @@
-import React from 'react';
-import Dice from './Dice';
 
 function sum(dice) {
     return dice.reduce((prev, curr) => prev + curr);
@@ -160,19 +158,4 @@ function ThreePairs(dice) {
 export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs };
 
 
-// function nothing(dice) {
-//     const arr = freq(dice);
-//     for (let i = 0; i > arr.length; i++) {
-//         const temp = arr[i];
-//         console.log(temp)
-//         if (temp[0] === 1 || temp[0] === 5) {
-//             i++;
-//         }
-//         else if (temp[1] !== 3 || temp[1] !==4) {
-//             return false
-//         }
-//     }
-//     return true;
-// }
-
-
+ 

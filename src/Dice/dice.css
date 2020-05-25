@@ -13,6 +13,10 @@ i {
     color: rgb(71, 151, 255) !important;
 }
 
+a {
+    margin: 0.2rem;
+}
+
 .roll {
     padding: 1px;
     background-color: rgb(207, 143, 24);
