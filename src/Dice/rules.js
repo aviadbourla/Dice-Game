@@ -11,7 +11,7 @@ function freq(dice) {
 function oneOrFive(dice) {
     const arr = freq(dice);
     return ((dice.includes(5) || dice.includes(1)));
-}
+ }
 
 function notOneOrFive(dice) {
     return ((dice.includes(2) || dice.includes(3) || dice.includes(4) || dice.includes(6)));
