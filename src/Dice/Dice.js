@@ -15,7 +15,7 @@ const Dice = (props) => {
                     isRoled={props.isRoled}
                     disabled={props.locked[idx]}
                 />)}
-        </div>
+         </div>
 
     )
 }
