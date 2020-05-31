@@ -25,6 +25,14 @@ function nothing(dice) {
     }
 }
 
+function nothingStart(dice) {
+    if ((threeOfAkind(dice) || fourOfAkind(dice) || TwothreeOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function threeOfAkind(dice) {
     let boltemp = 0;
     let tempIdx = { boll: false, NumNotPartOfTheThree: 0, threeIndex: 0 };
@@ -155,7 +163,7 @@ function ThreePairs(dice) {
     }
     return false;
 }
-export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs };
+export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs, nothingStart };
 
 
  

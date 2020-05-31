@@ -1,3 +1,9 @@
+
+- Complex dice game (Farkle) using React/React hooks and JavaScript(ES6).
+
+![](screenShots/IfarkleGit.png)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

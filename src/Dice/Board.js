@@ -13,17 +13,28 @@ const Board = () => {
     const [SumBeforePass, setSumBeforePass] = useState(0);
     const [playerTurn, setplayerTurn] = useState(true);
     const [start, setStart] = useState(false);
-    
+
     //upcoming 
     const [winner, setWinner] = useState(false);
     const [winneresName, setwinneresName] = useState('');
-    const [NextRound, setNextRound] = useState(false);
-    const [PlayerValue, setPlayerValue] = useState(0);
     const [unpresedDice, setUnpresedDice] = useState([]);
 
     useEffect(() => {
         setSumBeforePass(canculateScore());
     }, [presedDice])
+
+    // useEffect(() => {
+    //     if (dice[0] !== null) {
+    //         console.log(rules.nothingStart(dice))
+    //         if (rules.nothingStart(dice) === false) {
+    //             alert("Notging !! changeing turns now")
+    //             setplayerTurn(!playerTurn)
+    //             setLocked(locked.map((locke) => !locked))
+    //             setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+    //             setSumBeforePass(0);
+    //         }
+    //     }
+    // }, [dice])
 
     function startgame() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
@@ -113,10 +124,11 @@ const Board = () => {
             {start && <div>  <p> Player One: {playerOneSum}</p>
                 <p> Player Two: {playerTwoSum}</p>
                 <p> Turn score: {SumBeforePass} </p> </div>}
-            {winner && <p>the winner is : {winneresName}</p>}
+            {playerOneSum === 1000 ? <p>the winner is : player one</p> : playerTwoSum === 1000 ? <p>the winner is :  player two</p> : null}
             <div className="dicecontiner">
                 <Dice dice={dice} locked={locked} handleClick={toggleLocked} isRoled={isRoled} />
             </div>
+            {playerTurn ? <p>player one is playing</p> : <p>player two is playing</p>}
             {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
             {start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
             {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
