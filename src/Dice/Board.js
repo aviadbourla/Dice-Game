@@ -120,15 +120,15 @@ const Board = () => {
     const bollpass = rules.nothing(presedDice);
     return (
         <div className="maindiv">
-            <h1> iBourla   <i className="fas fa-dice-six"> </i></h1>
+            <h1> iBourla  <i className="fas fa-dice-six"> </i></h1>
             {start && <div>  <p> Player One: {playerOneSum}</p>
                 <p> Player Two: {playerTwoSum}</p>
-                <p> Turn score: {SumBeforePass} </p> </div>}
-            {playerOneSum === 1000 ? <p>the winner is : player one</p> : playerTwoSum === 1000 ? <p>the winner is :  player two</p> : null}
+                <p className="turn"> Turn score: {SumBeforePass} </p> </div>}
+            {playerOneSum === 10000 ? <p>the winner is : player one</p> : playerTwoSum === 10000 ? <p>the winner is :  player two</p> : null}
             <div className="dicecontiner">
                 <Dice dice={dice} locked={locked} handleClick={toggleLocked} isRoled={isRoled} />
             </div>
-            {playerTurn ? <p>player one is playing</p> : <p>player two is playing</p>}
+            {start && (playerTurn ? <p className="turn">player one is playing</p> : <p className="turn">player two is playing</p>)}
             {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
             {start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
             {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}

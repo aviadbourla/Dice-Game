@@ -9,14 +9,6 @@
     text-shadow: none;
 }
 
-i {
-    color: rgb(71, 151, 255) !important;
-}
-
-a {
-    margin: 0.2rem;
-}
-
 .roll {
     padding: 1px;
     background-color: rgb(207, 143, 24);
@@ -42,12 +34,17 @@ a {
 }
 
 .maindiv {
-    width: 502px;
+    width: 400px;
     position: relative;
 }
 
 p {
     display: inline;
+    margin: 10PX;
+}
+
+.turn {
+    display: block;
     margin: 10PX;
 }
 
@@ -87,11 +84,17 @@ p {
     cursor: not-allowed;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
+i {
+    color: rgb(71, 151, 255) !important;
+}
+
+a {
+    margin: 0.2rem;
+}
+
+@media only screen and (max-width: 480px) {
+    .maindiv {
+        width: 350px;
+        position: relative;
     }
 }
