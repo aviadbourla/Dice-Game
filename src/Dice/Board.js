@@ -6,6 +6,8 @@ import './dice.css';
 const Board = () => {
     const [dice, setdices] = useState(Array(6).fill(null));
     const [presedDice, setPresedDice] = useState([]);
+    const [bol, setBoll] = useState(true);
+    const [UnpresedDice, setUnpresedDice] = useState([]);
     const [locked, setLocked] = useState(Array(6).fill(false));
     const [isRoled, setisRoled] = useState(true);
     const [playerOneSum, setplayerOneSum] = useState(0);
@@ -17,35 +19,50 @@ const Board = () => {
     //upcoming 
     const [winner, setWinner] = useState(false);
     const [winneresName, setwinneresName] = useState('');
-    const [unpresedDice, setUnpresedDice] = useState([]);
 
     useEffect(() => {
         setSumBeforePass(canculateScore());
-    }, [presedDice])
+    }, [bol])
 
-    // useEffect(() => {
-    //     if (dice[0] !== null) {
-    //         console.log(rules.nothingStart(dice))
-    //         if (rules.nothingStart(dice) === false) {
-    //             alert("Notging !! changeing turns now")
-    //             setplayerTurn(!playerTurn)
-    //             setLocked(locked.map((locke) => !locked))
-    //             setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
-    //             setSumBeforePass(0);
-    //         }
-    //     }
-    // }, [dice])
+    useEffect(() => {
+
+    }, [isRoled])
+
+    useEffect(() => {
+        if (dice[0] !== null) {
+            console.log(rules.nothingStart(dice))
+            if (rules.nothingStart(dice) === false) {
+                alert("Notging !! changeing turns now")
+                setplayerTurn(!playerTurn)
+                setLocked(locked.map((locke) => !locked))
+                setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            }
+        }
+    }, [dice])
 
     function startgame() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
         setStart(true)
     }
     function toggleLocked(idx) {
+        //idx == index of the dice in the dice arr 
+        //dice[idx] == value of the index preesed
         setLocked([...locked.slice(0, idx), !locked[idx], ...locked.slice(idx + 1)])
         if (locked[idx] === false) {
             setPresedDice([...presedDice, dice[idx]]);
+            setBoll(!bol)
         } else {
-            setPresedDice(presedDice.filter(presedDice => presedDice !== dice[idx]))
+            let tempIndex = presedDice.indexOf(dice[idx])
+            let tempArr = presedDice;
+            let temp = [];
+            console.log(tempArr);
+            if (tempIndex > -1) {
+                temp = tempArr.splice(tempIndex, 1);
+                setPresedDice(tempArr);
+                setSumBeforePass(canculateScore());
+                setBoll(!bol)
+            }
+            // setPresedDice(presedDice.filter(presedDice => presedDice !== dice[idx]))
         }
     }
     function canculateScore() {
@@ -97,8 +114,14 @@ const Board = () => {
 
     function roll() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+        let temp = [];
+        for (let i = 0; i <= dice.length; i++) {
+            if (locked[i] === true) {
+                temp.push(dice[i])
+            }
+        }
+        setUnpresedDice(temp);
         setisRoled(!isRoled);
-        setSumBeforePass(canculateScore());
         setPresedDice([])
     }
 

@@ -3,7 +3,6 @@ import Die from './Die'
 import './dice.css';
 
 const Dice = (props) => {
-    console.log(props)
     return (
         <div>
             {props.dice.map((id, idx) =>
@@ -15,7 +14,7 @@ const Dice = (props) => {
                     isRoled={props.isRoled}
                     disabled={props.locked[idx]}
                 />)}
-         </div>
+        </div>
 
     )
 }
