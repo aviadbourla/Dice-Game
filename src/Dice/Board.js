@@ -6,32 +6,66 @@ import './dice.css';
 const Board = () => {
     const [dice, setdices] = useState(Array(6).fill(null));
     const [presedDice, setPresedDice] = useState([]);
-    const [bol, setBoll] = useState(true);
     const [UnpresedDice, setUnpresedDice] = useState([]);
+    const [afterRollUnpressedDice, setAfterRollUnpressedDice] = useState([]);
+    const [sumAfterRoll, setSumAfterRoll] = useState(0);
+    const [SumBeforePass, setSumBeforePass] = useState(0);
+    const [bol, setBoll] = useState(true);
     const [locked, setLocked] = useState(Array(6).fill(false));
     const [isRoled, setisRoled] = useState(true);
     const [playerOneSum, setplayerOneSum] = useState(0);
     const [playerTwoSum, setPlayerTwoSum] = useState(0);
-    const [SumBeforePass, setSumBeforePass] = useState(0);
     const [playerTurn, setplayerTurn] = useState(true);
     const [start, setStart] = useState(false);
+
+
 
     //upcoming 
     const [winner, setWinner] = useState(false);
     const [winneresName, setwinneresName] = useState('');
 
+
     useEffect(() => {
-        setSumBeforePass(canculateScore());
+        setSumBeforePass(sumAfterRoll + canculateScore());
     }, [bol])
 
     useEffect(() => {
+        const temp = dice.concat().sort();
+        const temp2 = UnpresedDice.sort();
+        const temp3 = [];
+        for (let i = 0, j = 0; i <= temp.length - 1; i++) {
+            if (j > temp2.length - 1) {
+                temp3.push(temp[i]);
+            }
+            if (temp[i] > temp2[i]) {
+                temp3.push(temp2[j])
+                j++;
+            } else if (temp[i] < temp2[j]) {
+                temp3.push(temp[i])
+                j--
+            }
+            j++;
+        }
+        setAfterRollUnpressedDice(temp3)
+        if (temp3[0] !== null) {
+            console.log(rules.nothingStart(dice))
+            if ((rules.nothingStart(temp3) === false)) {
+                alert("Notging !! changeing turns now")
+                setplayerTurn(!playerTurn)
+                setLocked(locked.map((locke) => !locked))
+                setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+                setSumBeforePass(0)
+                setSumAfterRoll(0)
 
+            }
+        }
+        setPresedDice([])
     }, [isRoled])
 
     useEffect(() => {
         if (dice[0] !== null) {
             console.log(rules.nothingStart(dice))
-            if (rules.nothingStart(dice) === false) {
+            if ((rules.nothingStart(dice) === false)) {
                 alert("Notging !! changeing turns now")
                 setplayerTurn(!playerTurn)
                 setLocked(locked.map((locke) => !locked))
@@ -68,27 +102,38 @@ const Board = () => {
     function canculateScore() {
         let temp = 0;
         let ThreeOfAkindObject = rules.threeOfAkind(presedDice);
+        let FourOfAkindObject = rules.fourOfAkind(presedDice);
         let FullHouseObject = rules.FullHouse(presedDice);
 
         if (ThreeOfAkindObject) {
             if (ThreeOfAkindObject.threeIndex === 1) {
                 if (ThreeOfAkindObject.NumNotPartOfTheThree === 5) {
-                    return (1000 + 50);
+                    return (1000 + (50 * ThreeOfAkindObject.counterFive));
                 } else {
                     return (1000);
                 }
             } else {
-                if (ThreeOfAkindObject.NumNotPartOfTheThree === 5) {
-                    return ((ThreeOfAkindObject.threeIndex * 100) + 50);
+                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5 && ThreeOfAkindObject.NumNotPartOfTheThree === 1) {
+                    return ((ThreeOfAkindObject.threeIndex * 100) + (50 * ThreeOfAkindObject.counterFive) + (100 * ThreeOfAkindObject.counterOne));
+                } else if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
+                    return ((ThreeOfAkindObject.threeIndex * 100) + (50 * ThreeOfAkindObject.counterFive));
                 } else if (ThreeOfAkindObject.NumNotPartOfTheThree === 1) {
-                    return ((ThreeOfAkindObject.threeIndex * 100) + 100);
+                    return ((ThreeOfAkindObject.threeIndex * 100) + (100 * ThreeOfAkindObject.counterOne));
                 } else {
                     return ((ThreeOfAkindObject.threeIndex * 100));
                 }
             }
         }
         else if (rules.fourOfAkind(presedDice)) {
-            return ((2000));
+            if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5 && FourOfAkindObject.NumNotPartOfTheFoure === 1) {
+                return (2000 + (50 * FourOfAkindObject.counterFive) + (100 * FourOfAkindObject.counterOne));
+            } else if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5) {
+                return (2000 + (50 * FourOfAkindObject.counterFive));
+            } else if (FourOfAkindObject.NumNotPartOfTheFoure === 1) {
+                return (2000 + (100 * FourOfAkindObject.counterOne));
+            } else {
+                return 2000;
+            }
         } else if (FullHouseObject) {
             if (FullHouseObject.NumberNotPartOfFullHouse === 1) {
                 return (800);
@@ -113,29 +158,48 @@ const Board = () => {
     }
 
     function roll() {
-        setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
-        let temp = [];
-        for (let i = 0; i <= dice.length; i++) {
-            if (locked[i] === true) {
-                temp.push(dice[i])
+        let Cheak = false;
+        for (let i = 0; i <= locked.length - 1; i++) {
+            if (locked[i] === false) {
+                Cheak = true;
+                break;
             }
         }
-        setUnpresedDice(temp);
-        setisRoled(!isRoled);
-        setPresedDice([])
+        if (Cheak === false) {
+            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            setLocked(locked.map(lock => lock === false))
+            setSumAfterRoll(SumBeforePass);
+            setPresedDice([])
+            setAfterRollUnpressedDice([])
+            setisRoled(!isRoled);
+        }
+        else {
+            setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+            let temp = [];
+            for (let i = 0; i <= dice.length; i++) {
+                if (locked[i] === true) {
+                    temp.push(dice[i])
+                }
+            }
+            setUnpresedDice(temp);
+            setSumAfterRoll(SumBeforePass);
+            setisRoled(!isRoled);
+        }
     }
 
     function pass() {
         setLocked(locked.map((locke) => !locked))
         setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
-        const tempScore = canculateScore();
+        const tempScore = sumAfterRoll + canculateScore();
         if (playerTurn) {
             setplayerOneSum(playerOneSum + tempScore);
         } else {
             setPlayerTwoSum(playerTwoSum + tempScore);
         }
         setSumBeforePass(0);
+        setSumAfterRoll(0);
         setPresedDice([])
+        setAfterRollUnpressedDice([])
         setplayerTurn(!playerTurn)
     }
 

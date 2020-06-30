@@ -11,7 +11,7 @@ function freq(dice) {
 function oneOrFive(dice) {
     const arr = freq(dice);
     return ((dice.includes(5) || dice.includes(1)));
- }
+}
 
 function notOneOrFive(dice) {
     return ((dice.includes(2) || dice.includes(3) || dice.includes(4) || dice.includes(6)));
@@ -35,12 +35,12 @@ function nothingStart(dice) {
 
 function threeOfAkind(dice) {
     let boltemp = 0;
-    let tempIdx = { boll: false, NumNotPartOfTheThree: 0, threeIndex: 0 };
+    let tempIdx = { boll: false, NumNotPartOfTheThree: 0, NumNotPartOfTheThreeIsFive: 0, counterOne: 0, counterFive: 0, threeIndex: 0 };
     const arr = freq(dice);
     if (dice.length < 3) {
         return false;
     } else {
-        if (arr.length > 1) {
+        if (arr.length === 2) {
             for (let i = 0; i < arr.length; i++) {
                 const temp = arr[i];
                 if (temp[1] !== 3 && (temp[0] !== 5 && temp[0] !== 1)) {
@@ -49,7 +49,14 @@ function threeOfAkind(dice) {
                     boltemp++;
                     tempIdx.threeIndex = temp[0];
                 } else {
-                    tempIdx.NumNotPartOfTheThree = temp[0]; //add how many times this num
+                    if (temp[0] === 1) {
+                        tempIdx.NumNotPartOfTheThree = 1;
+                        tempIdx.counterOne = temp[1];
+                    } else if (temp[0] === 5) {
+                        tempIdx.NumNotPartOfTheThreeIsFive = 5;
+                        tempIdx.counterFive = temp[1];
+
+                    }
                 }
             }
             if (boltemp >= 1) {
@@ -57,7 +64,29 @@ function threeOfAkind(dice) {
             } else {
                 return false;
             }
-        } else {
+        } else if (arr.length > 2) {
+            for (let i = 0; i < arr.length; i++) {
+                const temp = arr[i];
+                if (temp[1] !== 3 && (temp[0] !== 5 && temp[0] !== 1)) {
+                    return false
+                } else if (temp[1] === 3) {
+                    boltemp++;
+                    tempIdx.threeIndex = temp[0];
+                } else if (temp[0] === 1) {
+                    tempIdx.NumNotPartOfTheThree = 1;  //add how many times this num
+                    tempIdx.counterOne = temp[1]
+                } else if (temp[0] === 5) {
+                    tempIdx.NumNotPartOfTheThreeIsFive = 5;
+                    tempIdx.counterFive = temp[1]
+                }
+            }
+            if (boltemp >= 1) {
+                return tempIdx;
+            } else {
+                return false;
+            }
+        }
+        else {
             for (let i = 0; i < arr.length; i++) {
                 const temp = arr[i];
                 if (temp[1] === 3) {
@@ -72,11 +101,12 @@ function threeOfAkind(dice) {
 
 function fourOfAkind(dice) {
     let boltemp = 0;
+    let tempIdxFourOfAkind = { boll: false, NumNotPartOfTheFoure: 0, NumNotPartOfTheFoureIsFive: 0, counterOne: 0, counterFive: 0 };
     const arr = freq(dice);
     if (dice.length < 3) {
         return false;
     } else {
-        if (arr.length > 1) {
+        if (arr.length === 1) {
             for (let i = 0; i < arr.length; i++) {
                 const temp = arr[i];
                 if (temp[1] !== 4 && (temp[0] !== 5 && temp[0] !== 1)) {
@@ -86,7 +116,29 @@ function fourOfAkind(dice) {
                 }
             }
             if (boltemp >= 1) {
-                return true;
+                tempIdxFourOfAkind.boll = true;
+                return tempIdxFourOfAkind;
+            } else {
+                return false;
+            }
+        } else if (arr.length > 1) {
+            for (let i = 0; i < arr.length; i++) {
+                const temp = arr[i];
+                if (temp[1] !== 4 && (temp[0] !== 5 && temp[0] !== 1)) {
+                    return false
+                } else if (temp[1] === 4) {
+                    boltemp++;
+                } else if (temp[0] === 1) {
+                    tempIdxFourOfAkind.NumNotPartOfTheFoure = 1;  //add how many times this num
+                    tempIdxFourOfAkind.counterOne = temp[1]
+                } else if (temp[0] === 5) {
+                    tempIdxFourOfAkind.NumNotPartOfTheFoureIsFive = 5;
+                    tempIdxFourOfAkind.counterFive = temp[1]
+                }
+            }
+            if (boltemp >= 1) {
+                tempIdxFourOfAkind.boll = true;
+                return tempIdxFourOfAkind;
             } else {
                 return false;
             }
@@ -94,7 +146,8 @@ function fourOfAkind(dice) {
             for (let i = 0; i < arr.length; i++) {
                 const temp = arr[i];
                 if (temp[1] === 4) {
-                    return true
+                    tempIdxFourOfAkind.boll = true;
+                    return tempIdxFourOfAkind
                 }
             }
         }
@@ -166,4 +219,3 @@ function ThreePairs(dice) {
 export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs, nothingStart };
 
 
- 
