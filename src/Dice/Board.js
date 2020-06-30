@@ -19,11 +19,23 @@ const Board = () => {
     const [start, setStart] = useState(false);
 
 
+    const [over1000PlayerOne, setover1000PlayerOne] = useState(false);
+    const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
+
+
 
     //upcoming 
-    const [winner, setWinner] = useState(false);
-    const [winneresName, setwinneresName] = useState('');
+    // const [winner, setWinner] = useState(false);
+    // const [winneresName, setwinneresName] = useState('');
 
+    useEffect(() => {
+        if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
+            setover1000PlayerOne(true);
+        }
+        if (SumBeforePass >= 1000 && playerTwoSum === 0 && !playerTurn) {
+            setover1000PlayerTwo(true);
+        }
+    }, [SumBeforePass])
 
     useEffect(() => {
         setSumBeforePass(sumAfterRoll + canculateScore());
@@ -73,6 +85,8 @@ const Board = () => {
             }
         }
     }, [dice])
+
+
 
     function startgame() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
@@ -217,7 +231,9 @@ const Board = () => {
             </div>
             {start && (playerTurn ? <p className="turn">player one is playing</p> : <p className="turn">player two is playing</p>)}
             {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
-            {start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
+            {(playerTurn && over1000PlayerOne) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
+            {(!playerTurn && over1000PlayerTwo) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
+
             {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
             <br />   <br />  <br /> <p>   Find me At: <a href="https://github.com/aviadbourla"> <i class="fab fa-git"></i> </a>
                 <a href="https://il.linkedin.com/in/aviad-bourla-56b4351aa"> <i class="fab fa-linkedin"></i> </a></p>
