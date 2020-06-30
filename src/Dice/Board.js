@@ -62,7 +62,7 @@ const Board = () => {
         if (temp3[0] !== null) {
             console.log(rules.nothingStart(dice))
             if ((rules.nothingStart(temp3) === false)) {
-                alert("Notging !! changeing turns now")
+                alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
                 setplayerTurn(!playerTurn)
                 setLocked(locked.map((locke) => !locked))
                 setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
@@ -78,7 +78,7 @@ const Board = () => {
         if (dice[0] !== null) {
             console.log(rules.nothingStart(dice))
             if ((rules.nothingStart(dice) === false)) {
-                alert("Notging !! changeing turns now")
+                alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
                 setplayerTurn(!playerTurn)
                 setLocked(locked.map((locke) => !locked))
                 setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
