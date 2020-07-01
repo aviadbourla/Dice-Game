@@ -18,7 +18,7 @@ function notOneOrFive(dice) {
 }
 
 function nothing(dice) {
-    if ((threeOfAkind(dice) || fourOfAkind(dice) || TwothreeOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice))) {
+    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || TwothreeOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice))) {
         return true;
     } else {
         return false;
@@ -26,15 +26,39 @@ function nothing(dice) {
 }
 
 function nothingStart(dice) {
-    if ((threeOfAkind(dice) || ThreePairs(dice) || straight(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
+    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
         return true;
     } else {
         return false;
     }
 }
 
+function IfthreeOfAkind(dice) {
+    const arr = freq(dice);
+    for (let i = 0; i < arr.length; i++) {
+        const temp = arr[i];
+        if (temp[1] === 3) {
+            return true
+        }
+    }
+    return false;
+}
+
+function IfFourOfAkind(dice) {
+    const arr = freq(dice);
+    for (let i = 0; i < arr.length; i++) {
+        const temp = arr[i];
+        if (temp[1] === 4) {
+            return true
+        }
+    }
+    return false;
+}
+
+
 function threeOfAkind(dice) {
     let boltemp = 0;
+    let bool = true;
     let tempIdx = { boll: false, NumNotPartOfTheThree: 0, NumNotPartOfTheThreeIsFive: 0, counterOne: 0, counterFive: 0, threeIndex: 0 };
     const arr = freq(dice);
     if (dice.length < 3) {
@@ -44,7 +68,7 @@ function threeOfAkind(dice) {
             for (let i = 0; i < arr.length; i++) {
                 const temp = arr[i];
                 if (temp[1] !== 3 && (temp[0] !== 5 && temp[0] !== 1)) {
-                    return false
+                    return false;
                 } else if (temp[1] === 3) {
                     boltemp++;
                     tempIdx.threeIndex = temp[0];

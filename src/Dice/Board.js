@@ -29,7 +29,7 @@ const Board = () => {
     //upcoming 
     // const [winner, setWinner] = useState(false);
     // const [winneresName, setwinneresName] = useState('');
-    console.log(rules.ThreePairs([1, 1, 5, 2, 3, 3]))
+    console.log(rules.nothingStart([6, 6, 6, 4, 3, 3]))
 
     useEffect(() => {
         if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
@@ -63,7 +63,6 @@ const Board = () => {
         }
         setAfterRollUnpressedDice(temp3)
         if (temp3[0] !== null) {
-            console.log(rules.nothingStart(dice))
             if ((rules.nothingStart(temp3) === false)) {
                 alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
                 setplayerTurn(!playerTurn)
@@ -79,12 +78,13 @@ const Board = () => {
 
     useEffect(() => {
         if (dice[0] !== null) {
-            console.log(rules.nothingStart(dice))
             if ((rules.nothingStart(dice) === false)) {
                 alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
                 setplayerTurn(!playerTurn)
                 setLocked(locked.map((locke) => !locked))
                 setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+                setSumBeforePass(0)
+                setSumAfterRoll(0)
             }
         }
     }, [dice])
@@ -124,7 +124,7 @@ const Board = () => {
         let FullHouseObject = rules.FullHouse(presedDice);
         let FiveOfAkindObject = rules.FiveOfAkind(presedDice);
 
-        if (ThreeOfAkindObject && !FullHouseObject && !FourOfAkindObject) {
+        if (ThreeOfAkindObject && !FourOfAkindObject) {
             if (ThreeOfAkindObject.threeIndex === 1) {
                 if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
                     return (1000 + (50 * ThreeOfAkindObject.counterFive));
@@ -159,17 +159,7 @@ const Board = () => {
             } else if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 1) {
                 return 2100
             }
-            else if (rules.sixOfAkind(presedDice)) {
-                return 3000;
-            }
-        } else if (FullHouseObject) {
-            if (FullHouseObject.NumberNotPartOfFullHouse === 1) {
-                return (800);
-            } else if (FullHouseObject.NumberNotPartOfFullHouse === 5) {
-                return (750);
-            } else {
-                return (700);
-            }
+
         } else if (rules.TwoThrees(presedDice)) {
             return 2500;
         } else if (rules.straight(presedDice)) {
