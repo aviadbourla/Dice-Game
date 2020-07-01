@@ -164,7 +164,7 @@ const Board = () => {
             return 2500;
         } else if (rules.straight(presedDice)) {
             return 1500;
-        } else if (rules.ThreePairs(dice)) {
+        } else if (rules.ThreePairs(presedDice)) {
             return 1500;
         }
         else {
