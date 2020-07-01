@@ -26,7 +26,7 @@ function nothing(dice) {
 }
 
 function nothingStart(dice) {
-    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
+    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || straight(dice) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
         return true;
     } else {
         return false;

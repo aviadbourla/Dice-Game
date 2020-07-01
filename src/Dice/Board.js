@@ -124,7 +124,7 @@ const Board = () => {
         let FullHouseObject = rules.FullHouse(presedDice);
         let FiveOfAkindObject = rules.FiveOfAkind(presedDice);
 
-        if (ThreeOfAkindObject && !FourOfAkindObject) {
+        if (ThreeOfAkindObject && !FourOfAkindObject && rules.TwoThrees(dice)) {
             if (ThreeOfAkindObject.threeIndex === 1) {
                 if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
                     return (1000 + (50 * ThreeOfAkindObject.counterFive));

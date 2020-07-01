@@ -69,7 +69,7 @@ p {
   border-radius: 10px;
   color: white;
   font-size: 2rem;
-  margin-top: 1rem;
+  margin: 1.5rem 0;
   border: none;
 }
 
@@ -101,8 +101,10 @@ a {
 
 .buttons-div {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .links-continer {
