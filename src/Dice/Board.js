@@ -237,6 +237,9 @@ const Board = () => {
 
     const bolll = rules.nothing(presedDice);
     const bollpass = rules.nothing(presedDice);
+
+    let styleLinks = !start ? 'links-continer' : 'links-continer-after-start';
+
     return (
         <div className="maindiv">
             <h1> iBourla  <i className="fas fa-dice-six"> </i></h1>
@@ -283,7 +286,7 @@ const Board = () => {
                 {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
                 {!start ? <AlertDialogSlide /> : null}
             </div>
-            <div className="links-continer">
+            <div className={styleLinks}>
                 <div>
                     <p className="Links-p">
                         Find me at :
@@ -294,7 +297,8 @@ const Board = () => {
                         <i class="fab fa-git"> </i>
                     </a>
                     <a className="link" href="https://il.linkedin.com/in/aviad-bourla-56b4351aa">
-                        <i class="fab fa-linkedin"></i>
+                        <i class="fab fa-linkedin-in"></i>
+
                     </a>
                 </div>
             </div>

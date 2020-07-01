@@ -110,7 +110,19 @@ a {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-top: 2rem;
+}
+.links-continer-after-start {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   margin-top: 0.5rem;
+}
+@media only screen and (min-width: 900px) {
+  .links-continer {
+    margin-top: 4.5rem;
+  }
 }
 
 .links {
