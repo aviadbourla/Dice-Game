@@ -240,23 +240,64 @@ const Board = () => {
     return (
         <div className="maindiv">
             <h1> iBourla  <i className="fas fa-dice-six"> </i></h1>
-            {start && <div>  <p> Player One: {playerOneSum}</p>
+            {start && <div>
+                <p> Player One: {playerOneSum}</p>
                 <p> Player Two: {playerTwoSum}</p>
-                <p className="turn"> Turn score: {SumBeforePass} </p> </div>}
-            {playerOneSum === 10000 ? <p>the winner is : player one</p> : playerTwoSum === 10000 ? <p>the winner is :  player two</p> : null}
-            <div className="dicecontiner">
-                <Dice dice={dice} locked={locked} handleClick={toggleLocked} isRoled={isRoled} />
+                <p className="turn">
+                    Turn score: {SumBeforePass}
+                </p>
             </div>
-            {start && (playerTurn ? <p className="turn">player one is playing</p> : <p className="turn">player two is playing</p>)}
-            {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
-            {(playerTurn && over1000PlayerOne) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
-            {(!playerTurn && over1000PlayerTwo) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
+            }
+            {playerOneSum === 10000 ?
+                <p>the winner is : player one</p>
+                : playerTwoSum === 10000 ?
+                    <p>the winner is :  player two</p>
+                    : null
+            }
+            <div className="dicecontiner">
+                <Dice dice={dice}
+                    locked={locked}
+                    handleClick={toggleLocked}
+                    isRoled={isRoled}
+                />
+            </div>
+            {start && (playerTurn ?
+                <p className="turn">player one is playing</p>
+                : <p className="turn">player two is playing</p>)
+            }
+            {start ? bolll ?
+                <button className="roll" onClick={roll}> Roll </button> :
+                <button className="disaled" disabled> Roll </button>
+                : null
+            }
+            {(playerTurn && over1000PlayerOne) && start ? bollpass ?
+                <button className="pass" onClick={pass}> Pass </button> :
+                <button className="disaled" disabled > Pass </button>
+                : null
+            }
+            {(!playerTurn && over1000PlayerTwo) && start ? bollpass ?
+                <button className="pass" onClick={pass}> Pass </button>
+                : <button className="disaled" disabled > Pass </button>
+                : null}
             <div className="buttons-div">
                 {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
                 {!start ? <AlertDialogSlide /> : null}
             </div>
-            <br />   <br />  <br /> <p>   Find me At: <a href="https://github.com/aviadbourla"> <i class="fab fa-git"></i> </a>
-                <a href="https://il.linkedin.com/in/aviad-bourla-56b4351aa"> <i class="fab fa-linkedin"></i> </a></p>
+            <div className="links-continer">
+                <div>
+                    <p className="Links-p">
+                        Find me at :
+                    </p>
+                </div>
+                <div className="links">
+                    <a className="link" href="https://github.com/aviadbourla">
+                        <i class="fab fa-git"> </i>
+                    </a>
+                    <a className="link" href="https://il.linkedin.com/in/aviad-bourla-56b4351aa">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     )
 }
