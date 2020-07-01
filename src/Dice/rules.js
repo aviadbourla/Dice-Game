@@ -26,7 +26,7 @@ function nothing(dice) {
 }
 
 function nothingStart(dice) {
-    if ((threeOfAkind(dice) || fourOfAkind(dice) || TwothreeOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
+    if ((threeOfAkind(dice) || ThreePairs(dice) || straight(dice)) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
         return true;
     } else {
         return false;
@@ -156,6 +156,62 @@ function fourOfAkind(dice) {
 }
 
 
+function FiveOfAkind(dice) {
+    let boltemp = 0;
+    let tempIdxFiveOfAkind = { boll: false, NumNotPartOfTheFive: 0 };
+    const arr = freq(dice);
+    if (dice.length < 5) {
+        return false;
+    } else {
+        if (arr.length === 1) {
+            for (let i = 0; i < arr.length; i++) {
+                const temp = arr[i];
+                if (temp[1] !== 5 && (temp[0] !== 5 && temp[0] !== 1)) {
+                    return false
+                } else if (temp[1] === 5) {
+                    boltemp++;
+                }
+            }
+            if (boltemp >= 1) {
+                tempIdxFiveOfAkind.boll = true;
+                return tempIdxFiveOfAkind;
+            } else {
+                return false;
+            }
+        } else if (arr.length > 1) {
+            for (let i = 0; i < arr.length; i++) {
+                const temp = arr[i];
+                if (temp[1] !== 5 && (temp[0] !== 5 && temp[0] !== 1)) {
+                    return false
+                } else if (temp[1] === 5) {
+                    boltemp++;
+                } else if (temp[0] === 1) {
+                    tempIdxFiveOfAkind.NumNotPartOfTheFoure = 1;  //add how many times this num
+                    tempIdxFiveOfAkind.counterOne = temp[1]
+                } else if (temp[0] === 5) {
+                    tempIdxFiveOfAkind.NumNotPartOfTheFoureIsFive = 5;
+                    tempIdxFiveOfAkind.counterFive = temp[1]
+                }
+            }
+            if (boltemp >= 1) {
+                tempIdxFiveOfAkind.boll = true;
+                return tempIdxFiveOfAkind;
+            } else {
+                return false;
+            }
+        } else {
+            for (let i = 0; i < arr.length; i++) {
+                const temp = arr[i];
+                if (temp[1] === 5) {
+                    tempIdxFiveOfAkind.boll = true;
+                    return tempIdxFiveOfAkind
+                }
+            }
+        }
+        return false;
+    }
+}
+
 function TwothreeOfAkind(dice) {
     const arr = freq(dice);
     if (arr.length === 3) {
@@ -182,8 +238,10 @@ function FullHouse(dice) {
                 if (temp[1] !== 2) {
                     if (temp[0] === 1) {
                         tempIdx.NumberNotPartOfFullHouse = 1;
-                    } else {
+                    } else if (temp[0] === 5) {
                         tempIdx.NumberNotPartOfFullHouse = 5;
+                    } else {
+                        return false;
                     }
                 } else {
                     dows++;
@@ -216,6 +274,36 @@ function ThreePairs(dice) {
     }
     return false;
 }
-export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs, nothingStart };
 
+function TwoThrees(dice) {
+    const arr = freq(dice);
+    if (arr.length === 2) {
+        for (let i = 0; i < arr.length; i++) {
+            const temp = arr[i];
+            if (temp[1] !== 3) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+function sixOfAkind(dice) {
+    for (let i = 0; i < dice.length - 1; i++) {
+        if (dice[i] !== dice[i + 1]) {
+            return false
+        }
+    }
+    return true;
+}
+
+function straight(dice) {
+    const arr = freq(dice);
+    if (arr.length === 6) {
+        return true
+    }
+    return false;
+}
+export default { sum, freq, oneOrFive, threeOfAkind, fourOfAkind, nothing, TwothreeOfAkind, FullHouse, ThreePairs, nothingStart, TwoThrees, FiveOfAkind, sixOfAkind, straight };
 

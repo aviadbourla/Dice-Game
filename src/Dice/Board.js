@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Dice from './Dice'
 import rules from './rules';
+import Instructions from '../Instructions'
+import AlertDialogSlide from './AlertDialogSlide'
 import './dice.css';
 
 const Board = () => {
@@ -27,6 +29,7 @@ const Board = () => {
     //upcoming 
     // const [winner, setWinner] = useState(false);
     // const [winneresName, setwinneresName] = useState('');
+    console.log(rules.ThreePairs([1, 1, 5, 2, 3, 3]))
 
     useEffect(() => {
         if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
@@ -114,14 +117,16 @@ const Board = () => {
         }
     }
     function canculateScore() {
+
         let temp = 0;
         let ThreeOfAkindObject = rules.threeOfAkind(presedDice);
         let FourOfAkindObject = rules.fourOfAkind(presedDice);
         let FullHouseObject = rules.FullHouse(presedDice);
+        let FiveOfAkindObject = rules.FiveOfAkind(presedDice);
 
-        if (ThreeOfAkindObject) {
+        if (ThreeOfAkindObject && !FullHouseObject && !FourOfAkindObject) {
             if (ThreeOfAkindObject.threeIndex === 1) {
-                if (ThreeOfAkindObject.NumNotPartOfTheThree === 5) {
+                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
                     return (1000 + (50 * ThreeOfAkindObject.counterFive));
                 } else {
                     return (1000);
@@ -140,13 +145,22 @@ const Board = () => {
         }
         else if (rules.fourOfAkind(presedDice)) {
             if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5 && FourOfAkindObject.NumNotPartOfTheFoure === 1) {
-                return (2000 + (50 * FourOfAkindObject.counterFive) + (100 * FourOfAkindObject.counterOne));
+                return (1000 + (50 * FourOfAkindObject.counterFive) + (100 * FourOfAkindObject.counterOne));
             } else if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5) {
-                return (2000 + (50 * FourOfAkindObject.counterFive));
+                return (1000 + (50 * FourOfAkindObject.counterFive));
             } else if (FourOfAkindObject.NumNotPartOfTheFoure === 1) {
-                return (2000 + (100 * FourOfAkindObject.counterOne));
+                return (1000 + (100 * FourOfAkindObject.counterOne));
             } else {
-                return 2000;
+                return 1000;
+            }
+        } else if (rules.FiveOfAkind(presedDice)) {
+            if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 5) {
+                return 2050;
+            } else if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 1) {
+                return 2100
+            }
+            else if (rules.sixOfAkind(presedDice)) {
+                return 3000;
             }
         } else if (FullHouseObject) {
             if (FullHouseObject.NumberNotPartOfFullHouse === 1) {
@@ -156,8 +170,12 @@ const Board = () => {
             } else {
                 return (700);
             }
-        } else if (rules.TwothreeOfAkind(presedDice)) {
-            return ((2500));
+        } else if (rules.TwoThrees(presedDice)) {
+            return 2500;
+        } else if (rules.straight(presedDice)) {
+            return 1500;
+        } else if (rules.ThreePairs(dice)) {
+            return 1500;
         }
         else {
             for (let i = 0; i < presedDice.length; i++) {
@@ -233,8 +251,10 @@ const Board = () => {
             {start ? bolll ? <button className="roll" onClick={roll}> Roll </button> : <button className="disaled" disabled> Roll </button> : null}
             {(playerTurn && over1000PlayerOne) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
             {(!playerTurn && over1000PlayerTwo) && start ? bollpass ? <button className="pass" onClick={pass}> Pass </button> : <button className="disaled" disabled > Pass </button> : null}
-
-            {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
+            <div className="buttons-div">
+                {!start ? <button className="start-button" onClick={startgame}> Start</button> : null}
+                {!start ? <AlertDialogSlide /> : null}
+            </div>
             <br />   <br />  <br /> <p>   Find me At: <a href="https://github.com/aviadbourla"> <i class="fab fa-git"></i> </a>
                 <a href="https://il.linkedin.com/in/aviad-bourla-56b4351aa"> <i class="fab fa-linkedin"></i> </a></p>
         </div>
