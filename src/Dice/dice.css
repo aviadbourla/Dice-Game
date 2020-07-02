@@ -9,6 +9,10 @@
   text-shadow: none;
 }
 
+.dice-locked-forEver {
+  cursor: not-allowed;
+}
+
 .roll {
   padding: 1px;
   background-color: rgb(207, 143, 24);
@@ -139,4 +143,13 @@ a {
 .Links-p {
   color: white;
   font-size: 1.6rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

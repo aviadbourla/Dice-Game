@@ -37,7 +37,7 @@ const Instructions = () => {
                 </tr>
                 <tr>
                     <td>Three 1's</td>
-                    <td>1000</td>
+                    <td>300</td>
                     <td>4 of a Kind</td>
                     <td>1000</td>
                 </tr>

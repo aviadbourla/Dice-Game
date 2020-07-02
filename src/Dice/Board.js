@@ -3,6 +3,8 @@ import Dice from './Dice'
 import rules from './rules';
 import Instructions from '../Instructions'
 import AlertDialogSlide from './AlertDialogSlide'
+import AlertDialogSlideWinner from './AlertDialogSlideWinner';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import './dice.css';
 
 const Board = () => {
@@ -19,17 +21,8 @@ const Board = () => {
     const [playerTwoSum, setPlayerTwoSum] = useState(0);
     const [playerTurn, setplayerTurn] = useState(true);
     const [start, setStart] = useState(false);
-
-
     const [over1000PlayerOne, setover1000PlayerOne] = useState(false);
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
-
-
-
-    //upcoming 
-    // const [winner, setWinner] = useState(false);
-    // const [winneresName, setwinneresName] = useState('');
-    console.log(rules.nothingStart([6, 6, 6, 4, 3, 3]))
 
     useEffect(() => {
         if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
@@ -89,12 +82,12 @@ const Board = () => {
         }
     }, [dice])
 
-
-
     function startgame() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+        canculateScore();
         setStart(true)
     }
+
     function toggleLocked(idx) {
         //idx == index of the dice in the dice arr 
         //dice[idx] == value of the index preesed
@@ -113,9 +106,9 @@ const Board = () => {
                 setSumBeforePass(canculateScore());
                 setBoll(!bol)
             }
-            // setPresedDice(presedDice.filter(presedDice => presedDice !== dice[idx]))
         }
     }
+
     function canculateScore() {
 
         let temp = 0;
@@ -124,12 +117,12 @@ const Board = () => {
         let FullHouseObject = rules.FullHouse(presedDice);
         let FiveOfAkindObject = rules.FiveOfAkind(presedDice);
 
-        if (ThreeOfAkindObject && !FourOfAkindObject && !rules.TwoThrees(dice)) {
+        if (ThreeOfAkindObject && !FourOfAkindObject && !rules.TwoThrees(presedDice)) {
             if (ThreeOfAkindObject.threeIndex === 1) {
                 if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
-                    return (1000 + (50 * ThreeOfAkindObject.counterFive));
+                    return (300 + (50 * ThreeOfAkindObject.counterFive));
                 } else {
-                    return (1000);
+                    return (300);
                 }
             } else {
                 if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5 && ThreeOfAkindObject.NumNotPartOfTheThree === 1) {
@@ -227,7 +220,6 @@ const Board = () => {
 
     const bolll = rules.nothing(presedDice);
     const bollpass = rules.nothing(presedDice);
-
     let styleLinks = !start ? 'links-continer' : 'links-continer-after-start';
 
     return (
@@ -240,17 +232,18 @@ const Board = () => {
                     Turn score: {SumBeforePass}
                 </p>
             </div>}
-            {playerOneSum === 1000 ?
-                <p>the winner is : player one</p>
+            {playerOneSum === 10000 ?
+                <AlertDialogSlideWinner winner={"one"} openDialog={true} />
                 : playerTwoSum === 10000 ?
-                    <p>the winner is :  player two</p>
-                    : null
+                    <AlertDialogSlideWinner winner={"two"} openDialog={true} />
+                    : <p></p>
             }
             <div className="dicecontiner">
-                <Dice dice={dice}
+                <Dice
+                    dice={dice}
                     locked={locked}
                     handleClick={toggleLocked}
-                    isRoled={isRoled}
+                    isRoled={!isRoled}
                 />
             </div>
             {start && (playerTurn ?
@@ -283,11 +276,9 @@ const Board = () => {
                 </div>
                 <div className="links">
                     <a className="link" href="https://github.com/aviadbourla">
-                        <i class="fab fa-git"> </i>
-                    </a>
+                        <i class="fab fa-github"></i>                    </a>
                     <a className="link" href="https://il.linkedin.com/in/aviad-bourla-56b4351aa">
-                        <i class="fab fa-linkedin-in"></i>
-
+                        <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
             </div>
