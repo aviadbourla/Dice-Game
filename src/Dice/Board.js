@@ -55,15 +55,17 @@ const Board = () => {
             j++;
         }
         setAfterRollUnpressedDice(temp3)
-        if (temp3[0] !== null) {
-            if ((rules.nothingStart(temp3) === false)) {
-                alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
-                setplayerTurn(!playerTurn)
-                setLocked(locked.map((locke) => !locked))
-                setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
-                setSumBeforePass(0)
-                setSumAfterRoll(0)
+        if (temp3.length < 6) {
+            if (temp3[0] !== null) {
+                if ((rules.nothingStart(temp3) === false)) {
+                    alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
+                    setplayerTurn(!playerTurn)
+                    setLocked(locked.map((locke) => !locked))
+                    setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+                    setSumBeforePass(0)
+                    setSumAfterRoll(0)
 
+                }
             }
         }
         setPresedDice([])
@@ -161,8 +163,9 @@ const Board = () => {
             return 1500;
         } else if (rules.ThreePairs(presedDice)) {
             return 1500;
-        }
-        else {
+        } else if (rules.sixOfAkind(presedDice)) {
+            return 3000;
+        } else {
             for (let i = 0; i < presedDice.length; i++) {
                 if (presedDice[i] === 1) {
                     temp += 100
