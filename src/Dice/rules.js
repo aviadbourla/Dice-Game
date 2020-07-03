@@ -210,11 +210,9 @@ function FiveOfAkind(dice) {
                 } else if (temp[1] === 5) {
                     boltemp++;
                 } else if (temp[0] === 1) {
-                    tempIdxFiveOfAkind.NumNotPartOfTheFoure = 1;  //add how many times this num
-                    tempIdxFiveOfAkind.counterOne = temp[1]
+                    tempIdxFiveOfAkind.NumNotPartOfTheFive = 1;  //add how many times this num
                 } else if (temp[0] === 5) {
                     tempIdxFiveOfAkind.NumNotPartOfTheFoureIsFive = 5;
-                    tempIdxFiveOfAkind.counterFive = temp[1]
                 }
             }
             if (boltemp >= 1) {

@@ -25,6 +25,8 @@ const Board = () => {
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
 
 
+    console.log(rules.FiveOfAkind([4, 4, 4, 4, 4, 1]))
+
     useEffect(() => {
         if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
             setover1000PlayerOne(true);
