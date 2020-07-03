@@ -24,6 +24,7 @@ const Board = () => {
     const [over1000PlayerOne, setover1000PlayerOne] = useState(false);
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
 
+
     useEffect(() => {
         if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
             setover1000PlayerOne(true);
@@ -55,32 +56,29 @@ const Board = () => {
             j++;
         }
         setAfterRollUnpressedDice(temp3)
-        if (temp3.length < 6) {
-            if (temp3[0] !== null) {
-                if ((rules.nothingStart(temp3) === false)) {
-                    alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
-                    setplayerTurn(!playerTurn)
-                    setLocked(locked.map((locke) => !locked))
-                    setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
-                    setSumBeforePass(0)
-                    setSumAfterRoll(0)
-
-                }
-            }
+        if (temp3.length < 6 && temp3[0] !== null && (rules.nothingStart(temp3) === false)) {
+            console.log("farkle useEffect isRoled")
+            alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
+            setplayerTurn(!playerTurn)
+            setLocked(locked.map((locke) => !locked))
+            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            setSumBeforePass(0)
+            setSumAfterRoll(0)
         }
+        setUnpresedDice([])
         setPresedDice([])
     }, [isRoled])
 
     useEffect(() => {
-        if (dice[0] !== null) {
-            if ((rules.nothingStart(dice) === false)) {
-                alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
-                setplayerTurn(!playerTurn)
-                setLocked(locked.map((locke) => !locked))
-                setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
-                setSumBeforePass(0)
-                setSumAfterRoll(0)
-            }
+        if (dice[0] !== null && (rules.nothingStart(dice) === false)) {
+            alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
+            setplayerTurn(!playerTurn)
+            setLocked(locked.map((locke) => !locked))
+            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            setSumBeforePass(0)
+            setSumAfterRoll(0)
+            setUnpresedDice([])
+            setPresedDice([])
         }
     }, [dice])
 
