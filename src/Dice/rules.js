@@ -18,7 +18,7 @@ function notOneOrFive(dice) {
 }
 
 function nothing(dice) {
-    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || TwothreeOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || (oneOrFive(dice) && !notOneOrFive(dice))) {
+    if ((threeOfAkind(dice) || fourOfAkind(dice) || ThreePairs(dice) || TwoThrees(dice) || straight(dice) || FiveOfAkind(dice) || sixOfAkind(dice)) || (oneOrFive(dice) && !notOneOrFive(dice))) {
         return true;
     } else {
         return false;
@@ -26,7 +26,7 @@ function nothing(dice) {
 }
 
 function nothingStart(dice) {
-    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || straight(dice) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
+    if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || straight(dice) || FiveOfAkind(dice) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
         return true;
     } else {
         return false;
@@ -314,6 +314,9 @@ function TwoThrees(dice) {
 }
 
 function sixOfAkind(dice) {
+    if (dice.length < 6) {
+        return false;
+    }
     for (let i = 0; i < dice.length - 1; i++) {
         if (dice[i] !== dice[i + 1]) {
             return false

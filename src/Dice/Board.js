@@ -152,7 +152,9 @@ const Board = () => {
             } else if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 1) {
                 return 2100
             }
-
+            else {
+                return 2000
+            }
         } else if (rules.TwoThrees(presedDice)) {
             return 2500;
         } else if (rules.straight(presedDice)) {
@@ -218,7 +220,7 @@ const Board = () => {
         setplayerTurn(!playerTurn)
     }
 
-    const CanIRool = rules.nothing(presedDice);
+    const canIRool = rules.nothing(presedDice);
     const canIPass = rules.nothing(presedDice);
     let styleLinks = !start ? 'links-continer' : 'links-continer-after-start';
 
@@ -244,7 +246,7 @@ const Board = () => {
                     </div>
                     <div>
                         <p className="turn">{`player ${playerTurn ? 'one' : 'two'} is playing`}</p>
-                        {CanIRool ?
+                        {canIRool ?
                             <button className="roll" onClick={roll}> Roll </button> :
                             <button className="disaled" disabled> Roll </button>
                         }
@@ -261,7 +263,6 @@ const Board = () => {
                     <AlertDialogSlide />
                 </div>
             }
-
             {playerOneSum >= 10000 && <AlertDialogSlideWinner winner={"one"} openDialog={true} />}
             {playerTwoSum >= 10000 && <AlertDialogSlideWinner winner={"two"} openDialog={true} />}
 
