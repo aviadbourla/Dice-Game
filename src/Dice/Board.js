@@ -8,9 +8,10 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import './dice.css';
 
 const Board = () => {
+
     const [dice, setdices] = useState(Array(6).fill(null));
     const [presedDice, setPresedDice] = useState([]);
-    const [UnpresedDice, setUnpresedDice] = useState([]);
+    const [unpresedDice, setUnpresedDice] = useState([]);
     const [afterRollUnpressedDice, setAfterRollUnpressedDice] = useState([]);
     const [sumAfterRoll, setSumAfterRoll] = useState(0);
     const [SumBeforePass, setSumBeforePass] = useState(0);
@@ -25,24 +26,22 @@ const Board = () => {
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
 
 
-    console.log(rules.FiveOfAkind([4, 4, 4, 4, 4, 1]))
-
-    useEffect(() => {
-        if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
-            setover1000PlayerOne(true);
-        }
-        if (SumBeforePass >= 1000 && playerTwoSum === 0 && !playerTurn) {
-            setover1000PlayerTwo(true);
-        }
-    }, [SumBeforePass])
-
     useEffect(() => {
         setSumBeforePass(sumAfterRoll + canculateScore());
     }, [bol])
 
     useEffect(() => {
+        if (SumBeforePass >= 500 && playerOneSum === 0 && playerTurn) {
+            setover1000PlayerOne(true);
+        }
+        if (SumBeforePass >= 500 && playerTwoSum === 0 && !playerTurn) {
+            setover1000PlayerTwo(true);
+        }
+    }, [SumBeforePass])
+
+    useEffect(() => {
         const temp = dice.concat().sort();
-        const temp2 = UnpresedDice.sort();
+        const temp2 = unpresedDice.sort();
         const temp3 = [];
         for (let i = 0, j = 0; i <= temp.length - 1; i++) {
             if (j > temp2.length - 1) {
@@ -69,6 +68,7 @@ const Board = () => {
         }
         setUnpresedDice([])
         setPresedDice([])
+
     }, [isRoled])
 
     useEffect(() => {
@@ -84,6 +84,7 @@ const Board = () => {
         }
     }, [dice])
 
+    //start game 
     function startgame() {
         setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
         canculateScore();
@@ -113,6 +114,7 @@ const Board = () => {
 
     function canculateScore() {
 
+        // some of the functions returns ass an object because i had to canculate what is the extra number (1 || 5) besides the rule. 
         let temp = 0;
         let ThreeOfAkindObject = rules.threeOfAkind(presedDice);
         let FourOfAkindObject = rules.fourOfAkind(presedDice);
@@ -177,6 +179,7 @@ const Board = () => {
         }
     }
 
+    // rool function, generte random dice to unpresed dice 
     function roll() {
         let Cheak = false;
         for (let i = 0; i <= locked.length - 1; i++) {
@@ -207,6 +210,7 @@ const Board = () => {
         }
     }
 
+    //pass button function
     function pass() {
         setLocked(locked.map((locke) => !locked))
         setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
@@ -222,9 +226,10 @@ const Board = () => {
         setAfterRollUnpressedDice([])
         setplayerTurn(!playerTurn)
     }
-
+    // we need to know if we can enabled button so we need to rub all the rules before 
     const canIRool = rules.nothing(presedDice);
     const canIPass = rules.nothing(presedDice);
+
     let styleLinks = !start ? 'links-continer' : 'links-continer-after-start';
 
     return (

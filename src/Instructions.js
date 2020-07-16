@@ -17,6 +17,14 @@ const Instructions = () => {
                 you set aside one 5 (50 points) on your first roll and two 5s (100 points) on
                 your second roll, you have 150 points. You cannot add them together to
                 make three 5s (500 points)  </li>
+                <li>  <strong>Note: </strong>  Each player must score a least <strong>1000 points </strong>  during the first turn to get into the game and enable the start button </li>
+
+            </ul>
+            <h3 className="Scoring"> Winning the Game</h3>
+            <ul>
+                <li>
+                    play continues until one player scores over 10,000 points.
+                </li>
             </ul>
             <h1 className="Scoring"> Scoring</h1>
             <Table striped bordered hover responsive size="sm" >

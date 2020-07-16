@@ -2,21 +2,25 @@
 function sum(dice) {
     return dice.reduce((prev, curr) => prev + curr);
 }
+
+//returns the frequency of numbers in the 6 dice
 function freq(dice) {
     const freqs = new Map();
     for (let d of dice) freqs.set(d, (freqs.get(d) || 0) + 1)
     return Array.from(freqs)
 }
-
+//check if 5 or 1 includes in the dice
 function oneOrFive(dice) {
     const arr = freq(dice);
     return ((dice.includes(5) || dice.includes(1)));
 }
 
+//check if there isnt 5 or 1 includes in the dice
 function notOneOrFive(dice) {
     return ((dice.includes(2) || dice.includes(3) || dice.includes(4) || dice.includes(6)));
 }
 
+//check if the player has a legal play.
 function nothing(dice) {
     if ((threeOfAkind(dice) || fourOfAkind(dice) || ThreePairs(dice) || TwoThrees(dice) || straight(dice) || FiveOfAkind(dice) || sixOfAkind(dice)) || (oneOrFive(dice) && !notOneOrFive(dice))) {
         return true;
@@ -25,6 +29,7 @@ function nothing(dice) {
     }
 }
 
+//check if the player has a legal play.
 function nothingStart(dice) {
     if ((IfthreeOfAkind(dice) || IfFourOfAkind(dice) || FullHouse(dice) || ThreePairs(dice)) || straight(dice) || FiveOfAkind(dice) || (oneOrFive(dice) && !notOneOrFive(dice) || oneOrFive(dice))) {
         return true;
