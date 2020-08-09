@@ -9,7 +9,7 @@ import './dice.css';
 
 const Board = () => {
 
-    const [dice, setdices] = useState(Array(6).fill(null));
+    const [dice, setDices] = useState(Array(6).fill(null));
     const [presedDice, setPresedDice] = useState([]);
     const [unpresedDice, setUnpresedDice] = useState([]);
     const [afterRollUnpressedDice, setAfterRollUnpressedDice] = useState([]);
@@ -17,10 +17,10 @@ const Board = () => {
     const [SumBeforePass, setSumBeforePass] = useState(0);
     const [bol, setBoll] = useState(true);
     const [locked, setLocked] = useState(Array(6).fill(false));
-    const [isRoled, setisRoled] = useState(true);
-    const [playerOneSum, setplayerOneSum] = useState(0);
+    const [isRoled, setIsRoled] = useState(true);
+    const [playerOneSum, setPlayerOneSum] = useState(0);
     const [playerTwoSum, setPlayerTwoSum] = useState(0);
-    const [playerTurn, setplayerTurn] = useState(true);
+    const [playerTurn, setPlayerTurn] = useState(true);
     const [start, setStart] = useState(false);
     const [over1000PlayerOne, setover1000PlayerOne] = useState(false);
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
@@ -60,9 +60,9 @@ const Board = () => {
         if (temp3.length < 6 && temp3[0] !== null && (rules.nothingStart(temp3) === false)) {
             console.log("farkle useEffect isRoled")
             alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
-            setplayerTurn(!playerTurn)
+            setPlayerTurn(!playerTurn)
             setLocked(locked.map((locke) => !locked))
-            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
             setSumBeforePass(0)
             setSumAfterRoll(0)
         }
@@ -74,9 +74,9 @@ const Board = () => {
     useEffect(() => {
         if (dice[0] !== null && (rules.nothingStart(dice) === false)) {
             alert(`FARkLE \n You lost${' ' + SumBeforePass} points!`)
-            setplayerTurn(!playerTurn)
+            setPlayerTurn(!playerTurn)
             setLocked(locked.map((locke) => !locked))
-            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+            setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
             setSumBeforePass(0)
             setSumAfterRoll(0)
             setUnpresedDice([])
@@ -85,8 +85,8 @@ const Board = () => {
     }, [dice])
 
     //start game 
-    function startgame() {
-        setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+    function startGame() {
+        setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
         canculateScore();
         setStart(true)
     }
@@ -181,23 +181,23 @@ const Board = () => {
 
     // rool function, generte random dice to unpresed dice 
     function roll() {
-        let Cheak = false;
+        let cheak = false;
         for (let i = 0; i <= locked.length - 1; i++) {
             if (locked[i] === false) {
-                Cheak = true;
+                cheak = true;
                 break;
             }
         }
-        if (Cheak === false) {
-            setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+        if (cheak === false) {
+            setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
             setLocked(locked.map(lock => lock === false))
             setSumAfterRoll(SumBeforePass);
             setPresedDice([])
             setAfterRollUnpressedDice([])
-            setisRoled(!isRoled);
+            setIsRoled(!isRoled);
         }
         else {
-            setdices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+            setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
             let temp = [];
             for (let i = 0; i <= dice.length; i++) {
                 if (locked[i] === true) {
@@ -206,17 +206,17 @@ const Board = () => {
             }
             setUnpresedDice(temp);
             setSumAfterRoll(SumBeforePass);
-            setisRoled(!isRoled);
+            setIsRoled(!isRoled);
         }
     }
 
     //pass button function
     function pass() {
         setLocked(locked.map((locke) => !locked))
-        setdices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+        setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
         const tempScore = sumAfterRoll + canculateScore();
         if (playerTurn) {
-            setplayerOneSum(playerOneSum + tempScore);
+            setPlayerOneSum(playerOneSum + tempScore);
         } else {
             setPlayerTwoSum(playerTwoSum + tempScore);
         }
@@ -224,7 +224,7 @@ const Board = () => {
         setSumAfterRoll(0);
         setPresedDice([])
         setAfterRollUnpressedDice([])
-        setplayerTurn(!playerTurn)
+        setPlayerTurn(!playerTurn)
     }
     // we need to know if we can enabled button so we need to rub all the rules before 
     const canIRool = rules.nothing(presedDice);
@@ -234,7 +234,9 @@ const Board = () => {
 
     return (
         <div className="maindiv">
-            <h1> iBourla  <i className="fas fa-dice-six"> </i></h1>
+            <h1> iBourla
+                <i className="fas fa-dice-six"> </i>
+            </h1>
             {start ?
                 <React.Fragment>
                     <div>
@@ -267,7 +269,11 @@ const Board = () => {
                 </React.Fragment>
                 :
                 <div className="buttons-div">
-                    <button className="start-button" onClick={startgame}> Start</button>
+                    <button
+                        className="start-button"
+                        onClick={startGame}>
+                        Start
+                     </button>
                     <AlertDialogSlide />
                 </div>
             }
