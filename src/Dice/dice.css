@@ -77,6 +77,18 @@ p {
   border: none;
 }
 
+.newgame-button {
+  padding: 1px;
+  background-color: #bb452b;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.4rem;
+  margin: 1.5rem 0;
+  border: none;
+}
+
 .disaled-btn-dice {
   padding: 4px;
   background-color: rgb(77, 83, 83);

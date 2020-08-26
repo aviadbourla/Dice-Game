@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Dice from './Dice'
 import rules from './rules';
-import Instructions from '../Instructions'
-import AlertDialogSlide from './AlertDialogSlide'
-import AlertDialogSlideWinner from './AlertDialogSlideWinner';
+import Instructions from '../Instructions/Instructions'
+import AlertDialogSlide from './alerts/AlertDialogSlide'
+import AlertDialogSlideWinner from './alerts/AlertDialogSlideWinner';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import './dice.css';
 
@@ -91,6 +91,22 @@ const Board = () => {
         setStart(true)
     }
 
+    function startNewGame() {
+        setLocked(Array(6).fill(false))
+        setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+        setStart(true);
+        setUnpresedDice([])
+        setSumBeforePass(0)
+        setSumAfterRoll(0)
+        setPlayerOneSum(0)
+        setPlayerTwoSum(0)
+        setPresedDice([])
+        setAfterRollUnpressedDice([])
+        setover1000PlayerOne(0)
+        setover1000PlayerTwo(0)
+
+    }
+
     function toggleLocked(idx) {
         //idx == index of the dice in the dice arr 
         //dice[idx] == value of the index preesed
@@ -123,17 +139,17 @@ const Board = () => {
 
         if (ThreeOfAkindObject && !FourOfAkindObject && !rules.TwoThrees(presedDice)) {
             if (ThreeOfAkindObject.threeIndex === 1) {
-                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
+                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive) {
                     return (300 + (50 * ThreeOfAkindObject.counterFive));
                 } else {
                     return (300);
                 }
             } else {
-                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5 && ThreeOfAkindObject.NumNotPartOfTheThree === 1) {
+                if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive && ThreeOfAkindObject.NumNotPartOfTheThree) {
                     return ((ThreeOfAkindObject.threeIndex * 100) + (50 * ThreeOfAkindObject.counterFive) + (100 * ThreeOfAkindObject.counterOne));
-                } else if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive === 5) {
+                } else if (ThreeOfAkindObject.NumNotPartOfTheThreeIsFive) {
                     return ((ThreeOfAkindObject.threeIndex * 100) + (50 * ThreeOfAkindObject.counterFive));
-                } else if (ThreeOfAkindObject.NumNotPartOfTheThree === 1) {
+                } else if (ThreeOfAkindObject.NumNotPartOfTheThree) {
                     return ((ThreeOfAkindObject.threeIndex * 100) + (100 * ThreeOfAkindObject.counterOne));
                 } else {
                     return ((ThreeOfAkindObject.threeIndex * 100));
@@ -141,19 +157,19 @@ const Board = () => {
             }
         }
         else if (rules.fourOfAkind(presedDice)) {
-            if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5 && FourOfAkindObject.NumNotPartOfTheFoure === 1) {
+            if (FourOfAkindObject.NumNotPartOfTheFoureIsFive && FourOfAkindObject.NumNotPartOfTheFoure) {
                 return (1000 + (50 * FourOfAkindObject.counterFive) + (100 * FourOfAkindObject.counterOne));
-            } else if (FourOfAkindObject.NumNotPartOfTheFoureIsFive === 5) {
+            } else if (FourOfAkindObject.NumNotPartOfTheFoureIsFive) {
                 return (1000 + (50 * FourOfAkindObject.counterFive));
-            } else if (FourOfAkindObject.NumNotPartOfTheFoure === 1) {
+            } else if (FourOfAkindObject.NumNotPartOfTheFoure) {
                 return (1000 + (100 * FourOfAkindObject.counterOne));
             } else {
                 return 1000;
             }
         } else if (rules.FiveOfAkind(presedDice)) {
-            if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 5) {
+            if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive) {
                 return 2050;
-            } else if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive === 1) {
+            } else if (FiveOfAkindObject.NumNotPartOfTheFoureIsFive) {
                 return 2100
             }
             else {
@@ -234,9 +250,12 @@ const Board = () => {
 
     return (
         <div className="maindiv">
-            <h1> iBourla
-                <i className="fas fa-dice-six"> </i>
-            </h1>
+            <div>
+                <h1 > iBourla
+                <i style={{ paddingLeft: '1rem' }} className="fas fa-dice-six"> </i>
+                </h1>
+            </div>
+
             {start ?
                 <React.Fragment>
                     <div>
@@ -266,6 +285,11 @@ const Board = () => {
                                 : <button className="disaled" disabled> Pass </button>}
                         </React.Fragment>
                     </div>
+                    <button
+                        className="newgame-button"
+                        onClick={startNewGame}>
+                        New game
+                     </button>
                 </React.Fragment>
                 :
                 <div className="buttons-div">
@@ -279,6 +303,7 @@ const Board = () => {
             }
             {playerOneSum >= 10000 && <AlertDialogSlideWinner winner={"one"} openDialog={true} />}
             {playerTwoSum >= 10000 && <AlertDialogSlideWinner winner={"two"} openDialog={true} />}
+
 
             <div className={styleLinks}>
                 <div>

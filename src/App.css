@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
- 
+
 .dicecontiner {
   display: flex;
   flex-direction: row;
@@ -23,5 +23,3 @@
 .App-link {
   color: #61dafb;
 }
-
- 

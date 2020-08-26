@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import Instructions from '../Instructions';
+import Instructions from '../../Instructions/Instructions';
 import './diaglog.css'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
