@@ -31,10 +31,10 @@ const Board = () => {
     }, [bol])
 
     useEffect(() => {
-        if (SumBeforePass >= 500 && playerOneSum === 0 && playerTurn) {
+        if (SumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
             setover1000PlayerOne(true);
         }
-        if (SumBeforePass >= 500 && playerTwoSum === 0 && !playerTurn) {
+        if (SumBeforePass >= 1000 && playerTwoSum === 0 && !playerTurn) {
             setover1000PlayerTwo(true);
         }
     }, [SumBeforePass])
@@ -104,7 +104,6 @@ const Board = () => {
         setAfterRollUnpressedDice([])
         setover1000PlayerOne(0)
         setover1000PlayerTwo(0)
-
     }
 
     function toggleLocked(idx) {
@@ -131,6 +130,7 @@ const Board = () => {
     function canculateScore() {
 
         // some of the functions returns ass an object because i had to canculate what is the extra number (1 || 5) besides the rule. 
+
         let temp = 0;
         let ThreeOfAkindObject = rules.threeOfAkind(presedDice);
         let FourOfAkindObject = rules.fourOfAkind(presedDice);
@@ -196,6 +196,7 @@ const Board = () => {
     }
 
     // rool function, generte random dice to unpresed dice 
+
     function roll() {
         let cheak = false;
         for (let i = 0; i <= locked.length - 1; i++) {
@@ -242,6 +243,7 @@ const Board = () => {
         setAfterRollUnpressedDice([])
         setPlayerTurn(!playerTurn)
     }
+
     // we need to know if we can enabled button so we need to rub all the rules before 
     const canIRool = rules.nothing(presedDice);
     const canIPass = rules.nothing(presedDice);
@@ -285,11 +287,15 @@ const Board = () => {
                                 : <button className="disaled" disabled> Pass </button>}
                         </React.Fragment>
                     </div>
-                    <button
-                        className="newgame-button"
-                        onClick={startNewGame}>
-                        New game
+                    <div>
+                        <button
+                            className="newgame-button"
+                            onClick={startNewGame}>
+                            New game
                      </button>
+                    </div>
+
+
                 </React.Fragment>
                 :
                 <div className="buttons-div">
