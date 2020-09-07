@@ -3,33 +3,35 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import Instructions from '../../Instructions/Instructions';
 import './diaglog.css'
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
-    const [open, setOpen] = React.useState(false);
-
+export default function AlertDialogSlideWinner(props) {
+    const [open, setOpen] = React.useState(props.openDialog);
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        window.location.reload(false);
+        return false;
     };
+
+    let showWinner = () => {
+        if (props.winner === 1) {
+            return <h1>congratulations player One!</h1>
+        } else if (props.winner === 2) {
+            return <h1> Congratulations player two!</h1>
+        }
+    }
 
     return (
         <div>
-            <Button className="instructions-button" variant="outlined" onClick={handleClickOpen}>
-                How To Play
-            </Button>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -39,11 +41,11 @@ export default function AlertDialogSlide() {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogContent>
-                    <Instructions />
+                    {showWinner}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} variant="contained" color="primary">
-                        Lets play
+                        Play Again
                     </Button>
 
                 </DialogActions>

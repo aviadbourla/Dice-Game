@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Dice from './Dice'
-import rules from './rules';
-import Instructions from '../Instructions/Instructions'
-import AlertDialogSlide from './alerts/AlertDialogSlide'
-import AlertDialogSlideWinner from './alerts/AlertDialogSlideWinner';
-import Footer from '../Footer'
+import Dice from '../../Components/Dice/Dice'
+import rules from '../../Components/RulesAndFunctions/rules';
+import Instructions from '../../Components/Instructions/Instructions'
+import AlertDialogSlide from '../alerts/AlertDialogSlide'
+import AlertDialogSlideWinner from '../alerts/AlertDialogSlideWinner';
+import Footer from '../../Components/Board/Footer'
 import GitHubIcon from '@material-ui/icons/GitHub';
-import StartGameComponent from './StartGameComponent'
-import Header from '../Header'
-import PlayersHeader from '../PlayersHeader'
-import './dice.css';
+import StartGameComponent from '../../Components/Board/StartGameComponent'
+import Header from '../../Components/Board/Header'
+import PlayersHeader from '../../Components/Board/PlayersScoreHeader'
+import '../Dice/dice.css'
 import { Button } from '@material-ui/core';
 
 const Board = () => {
@@ -19,7 +19,7 @@ const Board = () => {
     const [unpresedDice, setUnpresedDice] = useState([]);
     const [sumAfterRoll, setSumAfterRoll] = useState(0);
     const [sumBeforePass, setSumBeforePass] = useState(0);
-    const [flagScoreAfterRoll, setFlagScoreAfterRolll] = useState(true);
+    const [flagBeforePass, setFlagBeforePass] = useState(true);
     const [locked, setLocked] = useState(Array(6).fill(false));
     const [isRoled, setIsRoled] = useState(true);
     const [playerOneSum, setPlayerOneSum] = useState(0);
@@ -29,6 +29,35 @@ const Board = () => {
     const [over1000PlayerOne, setover1000PlayerOne] = useState(false);
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
     const [winner, setWinner] = useState({ win: false, player: 0 })
+
+
+    // calculate score before pass and after a roll
+    useEffect(() => {
+        canculateScoreBeforePass();
+    }, [flagBeforePass])
+
+    // if a player score more then 1000 points we need to open the pass btn 
+    useEffect(() => {
+        isOver1000();
+    }, [sumBeforePass])
+
+    // player who get more then 10000 points is the winner 
+    useEffect(() => {
+        isWinner();
+    }, [playerOneSum, playerTwoSum])
+
+    // we need to make a new arr of the unpressed  Dice to calculate if the player have a ligal play.
+
+    useEffect(() => {
+        isFarkle()
+    }, [isRoled])
+
+    // when dice changd we need to to know if we should alert "lose points alert"
+    useEffect(() => {
+        if (dice[0] !== null && (rules.ligalMoves(dice) === false)) {
+            farkle();
+        }
+    }, [dice])
 
 
     function startGame() {
@@ -60,7 +89,7 @@ const Board = () => {
         setLocked([...locked.slice(0, idx), !locked[idx], ...locked.slice(idx + 1)])
         if (locked[idx] === false) {
             setPresedDice([...presedDice, dice[idx]]);
-            setFlagScoreAfterRolll(!flagScoreAfterRoll)
+            setFlagBeforePass(!flagBeforePass)
         } else {
             let tempIndex = presedDice.indexOf(dice[idx])
             let tempArr = presedDice;
@@ -69,11 +98,11 @@ const Board = () => {
                 temp = tempArr.splice(tempIndex, 1);
                 setPresedDice(tempArr);
                 setSumBeforePass(rules.canculateScore(presedDice));
-                setFlagScoreAfterRolll(!flagScoreAfterRoll)
+                setFlagBeforePass(!flagBeforePass)
             }
         }
     }
-    // rool function, generte random dice to unpresed dice 
+    // generte random dice to unpressed dice 
     function roll() {
         let flag = false;
         for (let i = 0; i <= locked.length - 1; i++) {
@@ -89,7 +118,7 @@ const Board = () => {
             setPresedDice([])
             setIsRoled(!isRoled);
         }
-        // we want to create the unpressdice arr so we need to do it before we roll 
+        // we want to create the unpressdice arr state so we need to do it before we roll 
         else {
             setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
             let temp = [];
@@ -130,47 +159,35 @@ const Board = () => {
         setUnpresedDice([])
         setPresedDice([])
     }
-
-    // canculate score before pass and after a roll
-    useEffect(() => {
-        setSumBeforePass(sumAfterRoll + rules.canculateScore(presedDice));
-    }, [flagScoreAfterRoll])
-
-    // if a player score more then 1000 points we need to open the pass btn 
-    useEffect(() => {
+    function isOver1000() {
         if (sumBeforePass >= 1000 && playerOneSum === 0 && playerTurn) {
             setover1000PlayerOne(true);
         }
         if (sumBeforePass >= 1000 && playerTwoSum === 0 && !playerTurn) {
             setover1000PlayerTwo(true);
         }
-    }, [sumBeforePass])
+    }
 
-    // player who get more then 10000 points is the winner 
-    useEffect(() => {
+    function isWinner() {
         if (playerOneSum >= 10000) {
             setWinner({ win: true, player: 1 })
         } else if (playerTwoSum >= 10000) {
             setWinner({ win: true, player: 2 })
         }
-    }, [playerOneSum, playerTwoSum])
+    }
 
-
-    // we need to make a new arr of the unpersd Dice to canculte if the player have a ligal move to play.
-    useEffect(() => {
+    function isFarkle() {
         let temp = rules.unpresedDiceArr(dice, unpresedDice)
         // when we rool we need to to know if we should alert "lose points alert" on the unpressed dice after roll 
         if (temp.length < 6 && temp[0] !== null && (rules.ligalMoves(temp) === false)) {
             farkle();
         }
-    }, [isRoled])
+        setPresedDice([])
+    }
 
-    // when dice changd we need to to know if we should alert "lose points alert"
-    useEffect(() => {
-        if (dice[0] !== null && (rules.ligalMoves(dice) === false)) {
-            farkle();
-        }
-    }, [dice])
+    function canculateScoreBeforePass() {
+        setSumBeforePass(sumAfterRoll + rules.canculateScore(presedDice));
+    }
 
     // we need to know if we can enabled button so we need to run all possible rules before 
 
@@ -188,7 +205,8 @@ const Board = () => {
             disabled> Roll
         </button>
 
-    let passBtn = canIRool && (playerTurn && over1000PlayerOne || (!playerTurn && over1000PlayerTwo)) ?
+    let passBtn = canIRool && (playerTurn && over1000PlayerOne || (!playerTurn && over1000PlayerTwo))
+        ?
         <button
             className="pass"
             onClick={pass}>

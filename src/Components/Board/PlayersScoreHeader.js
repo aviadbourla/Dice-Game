@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PlayersHeader = ({ playerOneSum, playerTwoSum, turnScore }) => {
+const PlayersScoreHeader = ({ playerOneSum, playerTwoSum, turnScore }) => {
     return (
         <div>
             <p>
@@ -19,4 +19,4 @@ const PlayersHeader = ({ playerOneSum, playerTwoSum, turnScore }) => {
     )
 }
 
-export default PlayersHeader;
+export default PlayersScoreHeader;

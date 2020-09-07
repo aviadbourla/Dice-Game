@@ -1,6 +1,6 @@
 
 import React from 'react'
-import AlertDialogSlide from './alerts/AlertDialogSlide'
+import AlertDialogSlide from '../alerts/AlertDialogSlide'
 
 const StartGameComponent = ({ startGame }) => {
 
