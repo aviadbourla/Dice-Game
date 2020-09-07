@@ -269,7 +269,11 @@ function straight(dice) {
 }
 
 function canculateThreeOfAkind(threeOfAkindObject) {
-    return ((threeOfAkindObject.threeIndex * 100) + (50 * threeOfAkindObject.counterFive) + (100 * threeOfAkindObject.counterOne));
+    if (threeOfAkindObject.threeIndex === 1) {
+        return (300 + (50 * threeOfAkindObject.counterFive) + (100 * threeOfAkindObject.counterOne));
+    } else {
+        return ((threeOfAkindObject.threeIndex * 100) + (50 * threeOfAkindObject.counterFive) + (100 * threeOfAkindObject.counterOne));
+    }
 }
 
 function canculateFourOfAkind(fourOfAkindObject) {
