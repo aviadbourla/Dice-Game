@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.dicecontiner {
+.dice-continer {
   display: flex;
   flex-direction: row;
   align-items: center;
