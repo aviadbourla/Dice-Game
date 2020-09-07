@@ -30,7 +30,6 @@ const Board = () => {
     const [over1000PlayerTwo, setover1000PlayerTwo] = useState(false);
     const [winner, setWinner] = useState({ win: false, player: 0 })
 
-
     // calculate score before pass and after a roll
     useEffect(() => {
         canculateScoreBeforePass();

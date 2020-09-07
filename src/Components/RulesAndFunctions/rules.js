@@ -192,7 +192,6 @@ function fiveOfAkind(dice) {
                 }
             }
             if (boltemp >= 1) {
-                tempIdxFiveOfAkind.boll = true;
                 return tempIdxFiveOfAkind;
             } else {
                 return false;
@@ -205,9 +204,9 @@ function fiveOfAkind(dice) {
                 } else if (temp[1] === 5) {
                     boltemp++;
                 } else if (temp[0] === 1) {
-                    tempIdxFiveOfAkind.numNotPartOfTheFive = 1;
+                    tempIdxFiveOfAkind.numNotPartOfTheFive = 100;
                 } else if (temp[0] === 5) {
-                    tempIdxFiveOfAkind.numNotPartOfTheFive = 5;
+                    tempIdxFiveOfAkind.numNotPartOfTheFive = 50;
                 }
             }
             if (boltemp >= 1) {
@@ -281,7 +280,7 @@ function canculateFourOfAkind(fourOfAkindObject) {
 }
 
 function canculateFiveOfAkind(fiveOfAkindObject) {
-    return (2000 + (50 * fiveOfAkindObject.numNotPartOfTheFive) + (100 * fiveOfAkindObject.numNotPartOfFive));
+    return (2000 + fiveOfAkindObject.numNotPartOfTheFive)
 }
 
 function canculateJustFiveOrOne(presedDice) {
@@ -303,7 +302,7 @@ function canculateScore(presedDice) {
     let fourOfAkindObject = fourOfAkind(presedDice);
     let fiveOfAkindObject = fiveOfAkind(presedDice);
 
-    if (threeOfAkindObject && !fourOfAkindObject && !twoThrees(presedDice)) {
+    if (threeOfAkindObject) {
         return canculateThreeOfAkind(threeOfAkindObject);
     }
     else if (fourOfAkind(presedDice)) {
