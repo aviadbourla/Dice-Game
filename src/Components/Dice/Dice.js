@@ -13,6 +13,7 @@ const Dice = (props) => {
                     key={idx}
                     isRoled={props.isRoled}
                     disabled={props.locked[idx]}
+                    ifDisable={props.disabledArr[idx]}
                 />)}
         </div>
 

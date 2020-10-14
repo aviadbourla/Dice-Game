@@ -21,6 +21,7 @@ const Board = () => {
     const [sumBeforePass, setSumBeforePass] = useState(0);
     const [flagBeforePass, setFlagBeforePass] = useState(true);
     const [locked, setLocked] = useState(Array(6).fill(false));
+    const [disabledArr, setDisabledArr] = useState(Array(6).fill(false));
     const [isRoled, setIsRoled] = useState(true);
     const [playerOneSum, setPlayerOneSum] = useState(0);
     const [playerTwoSum, setPlayerTwoSum] = useState(0);
@@ -46,7 +47,6 @@ const Board = () => {
     }, [playerOneSum, playerTwoSum])
 
     // we need to make a new arr of the unpressed  Dice to calculate if the player have a ligal play.
-
     useEffect(() => {
         isFarkle()
     }, [isRoled])
@@ -113,6 +113,7 @@ const Board = () => {
         if (flag === false) {
             setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
             setLocked(locked.map(lock => lock === false))
+            setDisabledArr(locked.map(lock => false));
             setSumAfterRoll(sumBeforePass);
             setPresedDice([])
             setIsRoled(!isRoled);
@@ -120,6 +121,7 @@ const Board = () => {
         // we want to create the unpressdice arr state so we need to do it before we roll 
         else {
             setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
+            setDisabledArr(locked.map((dice, i) => locked[i] ? true : false));
             let temp = [];
             for (let i = 0; i <= dice.length; i++) {
                 if (locked[i] === true) {
@@ -129,6 +131,7 @@ const Board = () => {
             setUnpresedDice(temp);
             setSumAfterRoll(sumBeforePass);
             setIsRoled(!isRoled);
+
         }
     }
 
@@ -136,6 +139,8 @@ const Board = () => {
     function pass() {
         setLocked(locked.map((locke) => !locked))
         setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
+        setDisabledArr(locked.map((locke) => false));
+
         const tempScore = sumAfterRoll + rules.canculateScore(presedDice);
         if (playerTurn) {
             setPlayerOneSum(playerOneSum + tempScore);
@@ -152,6 +157,7 @@ const Board = () => {
         alert(`FARkLE \n You lost${' ' + sumBeforePass} points!`)
         setPlayerTurn(!playerTurn)
         setLocked(locked.map((locke) => !locked))
+        setDisabledArr(disabledArr.map((locke) => false));
         setDices(dice.map((dice) => dice = Math.floor(Math.random() * ((6 - 1) + 1) + 1)))
         setSumBeforePass(0)
         setSumAfterRoll(0)
@@ -233,6 +239,7 @@ const Board = () => {
                             locked={locked}
                             handleClick={toggleLocked}
                             isRoled={!isRoled}
+                            disabledArr={disabledArr}
                         />
                     </div>
                     <>

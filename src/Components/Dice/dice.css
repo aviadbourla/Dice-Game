@@ -9,7 +9,7 @@
   text-shadow: none;
 }
 
-.dice-locked-forEver {
+.dice-disabled {
   cursor: not-allowed;
 }
 
@@ -164,4 +164,15 @@ a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.dice-btn {
+  margin: 0.2rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.dice-btn:focus {
+  outline: none;
 }
