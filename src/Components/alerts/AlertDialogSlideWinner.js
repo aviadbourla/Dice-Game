@@ -11,7 +11,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AlertDialogSlideWinner(props) {
-    console.log(props.winner)
     const [open, setOpen] = React.useState(props.openDialog);
     const handleClickOpen = () => {
         setOpen(true);
