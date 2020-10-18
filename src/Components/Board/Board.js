@@ -174,9 +174,9 @@ const Board = () => {
     }
 
     function isWinner() {
-        if (playerOneSum >= 10000) {
+        if (playerOneSum >= 500) {
             setWinner({ win: true, player: 1 })
-        } else if (playerTwoSum >= 10000) {
+        } else if (playerTwoSum >= 500) {
             setWinner({ win: true, player: 2 })
         }
     }

@@ -11,6 +11,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AlertDialogSlideWinner(props) {
+    console.log(props.winner)
     const [open, setOpen] = React.useState(props.openDialog);
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,12 +23,11 @@ export default function AlertDialogSlideWinner(props) {
         return false;
     };
 
-    let showWinner = () => {
-        if (props.winner === 1) {
-            return <h1>congratulations player One!</h1>
-        } else if (props.winner === 2) {
-            return <h1> Congratulations player two!</h1>
-        }
+    const ShowWinner = () => {
+        return props.winner === 1 ?
+            <p> Congratulations player One!</p>
+            :
+            <p> Congratulations player two!</p>
     }
 
     return (
@@ -41,9 +41,9 @@ export default function AlertDialogSlideWinner(props) {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogContent>
-                    {showWinner}
+                    <ShowWinner />
                 </DialogContent>
-                <DialogActions>
+                <DialogActions className="dialog-btn">
                     <Button onClick={handleClose} variant="contained" color="primary">
                         Play Again
                     </Button>

@@ -9,3 +9,9 @@
   margin-top: 1rem !important;
   border: none !important;
 }
+
+.dialog-btn {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
