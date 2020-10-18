@@ -302,7 +302,7 @@ function canculateScore(presedDice) {
     let fourOfAkindObject = fourOfAkind(presedDice);
     let fiveOfAkindObject = fiveOfAkind(presedDice);
 
-    if (threeOfAkindObject) {
+    if (threeOfAkindObject && !twoThrees(presedDice)) {
         return canculateThreeOfAkind(threeOfAkindObject);
     }
     else if (fourOfAkind(presedDice)) {
