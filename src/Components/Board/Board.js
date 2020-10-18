@@ -73,6 +73,7 @@ const Board = () => {
         setDices(dice.map((dice, i) => locked[i] ? dice : Math.floor(Math.random() * ((6 - 1) + 1) + 1)));
         setStart(true);
         setUnpresedDice([])
+        setDisabledArr(Array(6).fill(false))
         setSumBeforePass(0)
         setSumAfterRoll(0)
         setPlayerOneSum(0)
